@@ -33,12 +33,22 @@
       let teacherAddress= 'kjskadfa k ksdj df akdjf akdfg aafagf';
       document.getElementById('p2').innerHTML = teacherFirstName + ' ' + teacherLastName;
 
+      // var firstName = 'ssds'
+
+      console.log(this)
+
       let student1 = {
         firstName : 'Hamed',
         lastName: 'Kaveh',
         nationalCode: '121215456',
         phone: '091254545',
-        addres: 'kjskadfa k ksdj df akdjf akdfg aafagf',
+        address: 'kjskadfa k ksdj df akdjf akdfg aafagf',
+        fullName: function(){
+          // var lastName = 'dfdfd'
+          console.log(this)
+          // return student1.firstName + ' ' + student1.lastName
+          return this.firstName + ' ' + this.lastName
+        }
       }
       
       let student2 = {
@@ -46,9 +56,14 @@
         lastName: 'Khadem',
         nationalCode: '4565454',
         phone: '091546545',
-        addres: 'mnbdbs fks gskd gfkjsd gfkdsja fsda',
-        
+        address: 'mnbdbs fks gskd gfkjsd gfkdsja fsda',
+        fullName: function(){
+          console.log(this)
+          // return student2.firstName + ' ' + student2.lastName
+          return this.firstName + ' ' + this.lastName
+        }
       }
+      
       document.getElementById('p3').innerHTML = student1.firstName + ' ' + student1.lastName;
       document.getElementById('p4').innerHTML = student2.firstName + ' ' + student2.lastName;
 
@@ -73,8 +88,8 @@
       showStudentInfo('p7', student1)
       showStudentInfo('p8', student2)
 
-      // document.getElementById('p5').innerHTML = student1.fullName();
-      // document.getElementById('p6').innerHTML = student2.fullName();
+      document.getElementById('p9').innerHTML = student1.fullName();
+      document.getElementById('p10').innerHTML = student2.fullName();
 
     </script>
   </body>
