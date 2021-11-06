@@ -45,34 +45,49 @@
         padding: 8px;
       }
       .table {
-        width: 600px;
+        width: 800px;
         margin: auto;
       }
-      .first-name {
+      .table .first-name {
         width: 40%;
       }
-      .last-name {
-        width: 50%;
+      .table .last-name {
+        width: 40%;
       }
-      .mark {
+      .table .score {
         width: 10%;
       }
-      .first-name,
-      .last-name,
-      .score {
+      .table .action {
+        width: 10%;
+      }
+      .table .first-name,
+      .table .last-name,
+      .table .score,
+      .table .action {
         padding: 15px;
         margin-left: 5px;
       }
-      .title {
+      .table .title {
         text-align: center;
         background-color: rgb(121, 121, 121);
         color: white;
       }
 
-      .error-message {
+      .form-wrapper .error-message {
         color: red;
         font-weight: 900;
         font-style: italic;
+      }
+      .table .close {
+        background-color: transparent;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        transition: all 0.2s;
+        padding: 0.5em;
+      }
+      .table .close:hover {
+        background-color: lightgray;
       }
     </style>
   </head>
@@ -114,6 +129,7 @@
         <div class="first-name title">First Name</div>
         <div class="last-name title">Last Name</div>
         <div class="score title">Score</div>
+        <div class="action title">Action</div>
       </div>
       <div id="table-body"></div>
     </div>
@@ -123,6 +139,7 @@
       let firstNameElement = document.getElementById('fname');
       let lastNameElement = document.getElementById('lname');
       let scoreElement = document.getElementById('score');
+      let studentList = [];
 
       /******** Studnet Constructor ********/
       let Student = function (fistName, lastName, score) {
@@ -148,15 +165,9 @@
           scoreElement.value
         );
 
-        let row = '<div class="row">';
-        row += '<div class="first-name">' + student.firstName + '</div>';
-        row += '<div class="last-name">' + student.lastName + '</div>';
-        row += '<div class="score">' + student.score + '</div>';
-        row += '</div>';
+        studentList.push(student);
 
-        var tableBody = document.getElementById('table-body');
-
-        tableBody.innerHTML += row;
+        fillStudentTable();
 
         firstNameElement.value = '';
         lastNameElement.value = '';
@@ -165,6 +176,31 @@
         firstNameElement.focus();
       };
 
+      const deleteStudent = function (index) {
+        console.log(index)
+        studentList.splice(index, 1)
+
+        fillStudentTable()
+
+      };
+
+      const fillStudentTable = function () {
+        const tableBody = document.getElementById('table-body');
+
+        tableBody.innerHTML = '';
+        for (let index = 0; index < studentList.length; index++) {
+          const student = studentList[index];
+          
+          let row = `<div class="row">
+                      <div class="first-name">${student.firstName}</div>
+                      <div class="last-name">${student.lastName}</div>
+                      <div class="score">${student.score}</div>   
+                      <div class="action"><button class="close" onclick="deleteStudent(${index})">Delete</button></div>
+                  </div>                      
+                  `;
+          tableBody.innerHTML += row;
+        }
+      };
       /*
        * isValid Function
        * desc: check validate data entry
@@ -209,17 +245,16 @@
           scoreElement.nextElementSibling.innerHTML = 'Score is required';
           retValue = false;
         } else {
-          let score = parseFloat(scoreElement.value)
-          if(isNaN(score)){
+          let score = parseFloat(scoreElement.value);
+          if (isNaN(score)) {
             scoreElement.nextElementSibling.innerHTML = 'Score must be a number';
             retValue = false;
-          }
-          else if(score < 0 || score > 100){
+          } else if (score < 0 || score > 100) {
             scoreElement.nextElementSibling.innerHTML = 'Score must be a number between 0 and 100';
             retValue = false;
           }
         }
-        
+
         return retValue;
       };
 
