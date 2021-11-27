@@ -655,22 +655,22 @@
         });
       
         /*** smooth scroll ***/
-        $('.nav a').click(function(e){
-          // e.preventDefault();
+        $('.nav a, footer > a').click(function(e){
+          e.preventDefault();
+          // console.log(location)
 
-          // console.log(this.hash)
-          // const targetId = this.hash;
+          console.log(this.hash)
+          const targetId = this.hash;
 
           // console.log($(targetId).offset().top)
-          // const pos = $(targetId).offset().top;
+          const pos = $(targetId).offset().top;
 
-          // // $('html').scrollTop(pos)
-          // $('html').animate({
-          //   scrollTop: pos
-          // }, 900, function(){
-          //   // console.log(location)
-          //   location.hash = targetId
-          // })
+          // $('html').scrollTop(pos)
+          $('html').animate({
+            scrollTop: pos
+          }, 900, function(){
+            location.hash = targetId
+          })
         })
       });
     </script>

@@ -28,6 +28,7 @@
   </style>
 </head>
 <body>
+  
   <div id="div1">
     <img src="images/Layer-673.jpg" alt="" class="img">
   </div>
@@ -52,9 +53,10 @@
 
         console.log(winTop)
 
-        $('#div1 > img').css('top', winTop * .4)
+        $('#div1 > img').css('top', (winTop - $('#div1').offset().top) * .5)
+
         if(winTop > $('#div3').offset().top ){
-          $('#div3 > img').css('top', (winTop - $('#div3').offset().top) * .4)
+          $('#div3 > img').css('top', (winTop - $('#div3').offset().top) * .5)
         }
       })
     })
