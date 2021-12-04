@@ -23,7 +23,8 @@
           <li><a id="ajax-1" href="#">AJAX Intro</a></li>
           <li><a id="ajax-2" href="#">AJAX XMLHttp</a></li>
           <li><a id="ajax-3" href="#" class="active">Breakfast Menu</a></li>
-          <li><a id="ajax-4" href="#">Get Data With XML</a></li>
+          <li><a id="ajax-4" href="#">Get Data With JSON</a></li>
+          <li><a id="ajax-5" href="#">Get Data From API</a></li>
         </ul>
       </aside>
       <main></main>
@@ -91,14 +92,9 @@
 
           if (this.readyState === 4 && this.status === 200) {
             console.log(this.responseText);
-            
             document.querySelector('main').innerHTML = this.responseText;
           }
         };
-
-        // xhttp.onload = function(){
-        //   console.log(this.readyState);
-        // }
 
         xhttp.open('GET', '/partial_pages/js_ajax_intro.txt', true);
         xhttp.send();
@@ -136,7 +132,6 @@
 
             let foodList = '<ul>';
             const foods = this.responseXML.querySelectorAll('food');
-            // console.log(foods)
             for (const food of foods) {
               // console.log(food.querySelector('name').innerHTML);
               foodList += `<li>${food.querySelector('name').innerHTML}
@@ -145,42 +140,17 @@
                                   <li>description = ${food.querySelector('description').innerHTML}</li>
                                   <li>calories = ${food.querySelector('calories').innerHTML}</li>
                               </ul>
-                            </li>`
+                          </li>`
             }
 
             foodList += '</ul>';
-            // console.log(foodList)
+            console.log(foodList)
             document.querySelector('main').innerHTML = foodList;
           }
         };
       };
 
-      const Food = function (name, price, description, calories) {
-        this.name = name;
-        this.price = price;
-        this.description = description;
-        this.calories = calories;
-      };
-
-      /* dfdfd */
-      const convertFoodList = function (foodsXML) {
-        const list = [];
-
-        for (const foodXML of foodsXML) {
-          /*  read properties */
-          let name = foodXML.querySelector('name').innerHTML;
-          let price = parseFloat(foodXML.querySelector('price').innerHTML);
-          let description = foodXML.querySelector('description').innerHTML;
-          let calories = parseInt(foodXML.querySelector('calories').innerHTML);
-
-          /* create food object */
-          const food = new Food(name, price, description, calories);
-
-          list.push(food);
-        }
-        return list
-      };
-
+      
       document.getElementById('ajax-4').onclick = function (e) {
         e.preventDefault();
 
@@ -188,16 +158,15 @@
 
         /*****************/
         const xhttp = new XMLHttpRequest();
-        xhttp.open('GET', '/data/breakfast_menu.xml', true);
+        xhttp.open('GET', '/data/breakfast_menu.json', true);
         xhttp.send();
 
         xhttp.onreadystatechange = function () {
           if (this.readyState === 4 && this.status === 200) {
             /****** Convert to array of object ***********/
-            const foodsXML = this.responseXML.querySelectorAll('food');
-
-            const foodList = convertFoodList(foodsXML);
-
+            console.log(this.responseText)
+            const foodList = JSON.parse(this.responseText)
+            console.table(foodList)
             /* Sorting Foods */
             foodList.sort(function (f1, f2) {
               // return f2.calories - f1.calories;
@@ -213,7 +182,7 @@
             for (const food of foodList) {
               foodListElement += `<li>${food.name}
                                     <ul>
-                                      <li>price = ${food.price}$</li>
+                                      <li>price = ${food.price}</li>
                                       <li>description = ${food.description}</li>
                                       <li>calories = ${food.calories}</li>
                                     </ul>
@@ -226,6 +195,32 @@
           }
         };
       };
+
+      document.getElementById('ajax-5').onclick = function (e) {
+        e.preventDefault();
+
+        changeActiveAsideLink(this);
+
+        
+        const xhttp = new XMLHttpRequest();
+          xhttp.open('GET', 'https://jsonplaceholder.typicode.com/ussers', true);
+          xhttp.send();
+          // xhttp.onreadystatechange = function () {
+          //   if (this.readyState === 4 && this.status === 200) {
+          //     console.log(this.responseText);
+          //     console.table(JSON.parse(this.responseText))
+          //   }
+          // }
+          
+          xhttp.onload = function(){
+            if(this.status === 200){
+              console.table(JSON.parse(this.responseText))
+            }
+            else{
+              console.log('Rase Error')
+            }
+          }
+      }
     </script>
   </body>
 </html>
